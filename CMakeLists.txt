@@ -16,7 +16,7 @@ add_custom_target(run COMMAND ${BAPS_EXE})
 add_dependencies(run bin/baps)
 
 # NOTE: Assumes gdb is in path, doesn't (can't) check for it
-add_custom_target(gdbrun COMMAND gdb ${BAPS_EXE}
+add_custom_target(gdbrun COMMAND gdb ${BAPS_EXE})
 add_dependencies(gdbrun bin/baps)
 
 FIND_PACKAGE(Doxygen)

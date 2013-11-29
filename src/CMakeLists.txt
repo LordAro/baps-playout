@@ -30,5 +30,3 @@ ADD_EXECUTABLE(bin/baps ${SRCS})
 
 target_link_libraries(bin/baps ${Qt5Network_LIBRARIES})
 
-GET_TARGET_PROPERTY(BAPS_EXE baps LOCATION)
-
