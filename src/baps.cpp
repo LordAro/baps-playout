@@ -7,6 +7,11 @@
 
 /** @file baps.cpp Functions related to starting BAPS. */
 
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <memory>
+#include <iostream>
+
 /**
  * Main entry point for this lovely program.
  * @param argc Number of arguments passed to this game.
@@ -15,5 +20,8 @@
  */
 int main(int argc, char **argv)
 {
+	auto socket = std::unique_ptr<QTcpSocket>(new QTcpSocket());
+	auto server = std::unique_ptr<QTcpServer>(new QTcpServer());
+	std::cout << "server->isListening(): " << server->isListening() << std::endl;
 	return 0;
 }

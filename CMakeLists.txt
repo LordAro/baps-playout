@@ -4,15 +4,22 @@
 # See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with BAPS. If not, see <http://www.gnu.org/licenses/>.
 
 PROJECT(BAPS)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
-FILE(GLOB SRCS
-  ${CMAKE_SOURCE_DIR}/src/*.cpp
-  ${CMAKE_SOURCE_DIR}/src/*.h
-)
+SET(BAPS_DONE_TOP_LEVEL_CMAKE ON)
 
-# TODO: Not use relative file paths so much
-ADD_EXECUTABLE(bin/baps ${SRCS})
+message(STATUS "Generating BAPS build files")
+add_subdirectory(src)
 
-GET_TARGET_PROPERTY(BAPS_EXE baps LOCATION)
+GET_TARGET_PROPERTY(BAPS_EXE bin/baps LOCATION)
 add_custom_target(run COMMAND ${BAPS_EXE})
+add_dependencies(run bin/baps)
+
+# NOTE: Assumes gdb is in path, doesn't (can't) check for it
+add_custom_target(gdbrun COMMAND gdb ${BAPS_EXE}
+add_dependencies(gdbrun bin/baps)
+
+FIND_PACKAGE(Doxygen)
+IF(DOXYGEN_FOUND)
+  add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE})
+ENDIF()
