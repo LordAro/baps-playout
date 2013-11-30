@@ -26,7 +26,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Network_EXECUTABLE_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -Wall")
 
 # TODO: Not use relative file paths so much
-ADD_EXECUTABLE(bin/baps ${SRCS})
+ADD_EXECUTABLE(baps ${SRCS})
 
-target_link_libraries(bin/baps ${Qt5Network_LIBRARIES})
+target_link_libraries(baps ${Qt5Network_LIBRARIES})
 
