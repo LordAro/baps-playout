@@ -7,10 +7,9 @@
 
 /** @file baps.cpp Functions related to starting BAPS. */
 
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <memory>
-#include <iostream>
+#include "server.h"
+
+#include <QtCore>
 
 /**
  * Main entry point for this lovely program.
@@ -20,8 +19,14 @@
  */
 int main(int argc, char **argv)
 {
-	auto socket = std::unique_ptr<QTcpSocket>(new QTcpSocket());
-	auto server = std::unique_ptr<QTcpServer>(new QTcpServer());
-	std::cout << "server->isListening(): " << server->isListening() << std::endl;
-	return 0;
+	QCoreApplication a(argc, argv);
+	auto server = std::unique_ptr<BAPSServer>(new BAPSServer());
+	
+	if (!server->listen(QHostAddress::Any, 1350)) {
+		qFatal("Error starting TcpSever: %s", qPrintable(server->errorString()));
+	}
+
+	qDebug() << "Listening on:" << server->serverAddress().toString()
+	         << ':' << server->serverPort();
+	return a.exec();
 }
