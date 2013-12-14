@@ -33,18 +33,32 @@ Command DecodeCommand(QDataStream &rawdata)
 	CommandType type = static_cast<CommandType>(type_int);
 	if (type >= CommandType::COUNT) {
 		qDebug() << "Invalid command";
-		/* abort? */
+		/* Abort */
+		Command cmd(CommandType::INVALID, "");
+		return cmd;
 	}
 
 	QByteArray meta;
 	meta.resize(meta_len);
 	if (rawdata.readRawData(meta.data(), meta_len) != meta_len) {
 		qDebug() << "Invalid read length";
-		/* abort? */
+		/* Abort */
+		Command cmd(CommandType::INVALID, "");
+		return cmd;
 	}
 
 	qDebug() << "Meta" << meta;
 
 	Command cmd(type, meta);
 	return cmd;
+}
+
+/**
+ * Instance Method.
+ * Checks if the command is valid.
+ * @return True if the command is valid. False otherwise.
+ */
+bool Command::IsValid()
+{
+	return this->cmdtype < CommandType::COUNT;
 }

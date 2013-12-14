@@ -27,6 +27,8 @@ public:
 
 	CommandType cmdtype; ///< Type of the command.
 	QString metadata;    ///< Metadata accompanying the command.
+
+	bool IsValid();
 };
 
 Command DecodeCommand(QDataStream &rawdata);

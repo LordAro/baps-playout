@@ -45,7 +45,11 @@ void BAPSServer::ReadTCPData()
 
 	Command cmd = DecodeCommand(raw);
 
-	// Process command
+	/* Process command */
+	if (!cmd.IsValid()) {
+		qWarning() << "Cannot process invalid command";
+		return;
+	}
 }
 
 /**
