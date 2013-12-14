@@ -24,7 +24,7 @@ Command DecodeCommand(QDataStream &rawdata)
 	qint32 type_int;
 	qint32 meta_len;
 
-	/* put the first 8 bytes of rawdata into the respective 4 byte ints */
+	/* Put the first 8 bytes of rawdata into the respective 4 byte ints. */
 	rawdata >> type_int >> meta_len;
 
 	qDebug() << "Command:" << type_int;
