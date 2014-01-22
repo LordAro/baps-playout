@@ -15,10 +15,12 @@ SET(FP ${CMAKE_SOURCE_DIR}/src)
 FILE(GLOB SRCS
   ${FP}/baps.cpp
   ${FP}/server.cpp
-  ${FP}/command.cpp
+  ${FP}/command_handler.cpp
+  ${FP}/command_router.cpp
   ${FP}/server.h
   ${FP}/util.h
-  ${FP}/command.h
+  ${FP}/command_handler.h
+  ${FP}/command_router.h
 )
 
 # Find Qt5Network

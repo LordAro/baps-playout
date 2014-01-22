@@ -5,32 +5,20 @@
  * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with BAPS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @file server.h Declarations of the server type */
+/** @file command_handler.h Declarations of CommandHandler. */
 
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef COMMAND_HANDLER_H
+#define COMMAND_HANDLER_H
 
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <vector>
-#include <memory>
-#include <command_router.h>
+#include <QString>
 
-/** Main server instance. */
-class BAPSServer : public QTcpServer {
-	Q_OBJECT
+/** CommandHandler */
+class CommandHandler {
+private:
+	QString cmdtype;    ///< Type of the Command
 
 public:
-	BAPSServer(QObject *parent = nullptr);
-
-private slots:
-	void ReadTCPData();
-	void Disconnected();
-protected:
-	void incomingConnection(qintptr socket_desc) override;
-private:
-	std::vector<std::unique_ptr<QTcpSocket>> clients;
-	CommandRouter cmdRouter;
+	virtual void HandleEvent() = 0;
 };
 
-#endif /* SERVER_H */
+#endif /* COMMAND_HANDLER_H */

@@ -8,11 +8,17 @@
 /** @file server.cpp Implementation of the server type */
 
 #include "util.h"
-#include "command.h"
+#include "command_handler.h"
+#include "command_router.h"
 #include "server.h"
 
 BAPSServer::BAPSServer(QObject *parent)
-	: QTcpServer(parent) {}
+	: QTcpServer(parent)
+{
+	this->cmdRouter = CommandRouter();
+}
+
+
 
 void BAPSServer::incomingConnection(qintptr socket_desc)
 {
@@ -37,16 +43,12 @@ void BAPSServer::ReadTCPData()
 	auto client = static_cast<QTcpSocket *>(sender());
 	assert(client != nullptr);
 
-	if (client->bytesAvailable() < (int)sizeof(CommandType) + (int)sizeof(int)) {
-		qWarning() << "Malformed packet";
-		return;
-	}
 	QDataStream raw(client);
 
-	Command cmd = DecodeCommand(raw);
+	CommandHandler *cmd = this->cmdRouter.DecodeCommand(raw);
 
 	/* Process command */
-	if (!cmd.IsValid()) {
+	if (NULL != cmd) {
 		qWarning() << "Cannot process invalid command";
 		return;
 	}

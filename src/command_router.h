@@ -5,32 +5,29 @@
  * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with BAPS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @file command.h Declarations of command related types. */
+/** @file command_router.h Routes commands to their appropriate handler */
 
-#ifndef COMMAND_H
-#define COMMAND_H
+#ifndef COMMAND_ROUTER_H
+#define COMMAND_ROUTER_H
 
 #include <QDataStream>
 #include <QString>
+#include <map>
 
-/** Define all command types. */
-enum class CommandType {
-	TEMP,    ///< \todo Remove.
-	COUNT,   ///< Number of commands.
-	INVALID, ///< Invalid command.
-};
+#include <command_handler.h>
 
-/** Command */
-class Command {
+/** CommandRouter */
+class CommandRouter {
 public:
-	Command(CommandType cmdtype, QString metadata);
+	CommandRouter();
 
-	CommandType cmdtype; ///< Type of the command.
-	QString metadata;    ///< Metadata accompanying the command.
+	bool Register(CommandHandler *handler); ///< Register a CommandHandler
+	CommandHandler *DecodeCommand(QDataStream &rawdata);
 
-	bool IsValid();
+private:
+	// Lookup table to map command to command handler
+	std::map<QString, CommandHandler *> commandHandlers;
+	
 };
 
-Command DecodeCommand(QDataStream &rawdata);
-
-#endif /* COMMAND_H */
+#endif /* COMMAND_ROUTER_H */
