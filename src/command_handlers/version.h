@@ -5,19 +5,22 @@
  * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with BAPS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @file command_handler.h Declarations of CommandHandler. */
+/** @file version.h The version CommandHandler. */
 
-#ifndef COMMAND_HANDLER_H
-#define COMMAND_HANDLER_H
+#ifndef VERSION_HANDLER_H
+#define VERSION_HANDLER_H
 
+#include "../command_handler.h"
 #include <QString>
 
-/** CommandHandler */
-class CommandHandler {
+/** VersionHandler */
+class VersionHandler : public CommandHandler {
 public:
-	QString cmdtype;    ///< Type of the Command
+	VersionHandler();
 
-	virtual void HandleEvent(QString payload) = 0;
+	QString cmdtype = "VERSION";
+
+	void HandleEvent(QString payload);
 };
 
-#endif /* COMMAND_HANDLER_H */
+#endif /* VERSION__HANDLER_H */

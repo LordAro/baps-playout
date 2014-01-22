@@ -10,12 +10,16 @@
 #include "util.h"
 #include "command_handler.h"
 #include "command_router.h"
+#include "command_handlers/version.h"
 #include "server.h"
 
 BAPSServer::BAPSServer(QObject *parent)
 	: QTcpServer(parent)
 {
+	/* Create an instance of the Command Router and then register each
+	 * command handler */
 	this->cmdRouter = CommandRouter();
+	this->cmdRouter.Register(new VersionHandler());
 }
 
 
@@ -43,9 +47,12 @@ void BAPSServer::ReadTCPData()
 	auto client = static_cast<QTcpSocket *>(sender());
 	assert(client != nullptr);
 
-	QDataStream raw(client);
+	/* Read a line from the socket and pass it to the command router */
+	QByteArray bytes = client->readLine(0);
+	QString cmdStr(bytes);
+	cmdStr = cmdStr.simplified();
 
-	CommandHandler *cmd = this->cmdRouter.DecodeCommand(raw);
+	CommandHandler *cmd = this->cmdRouter.DecodeCommand(cmdStr);
 
 	/* Process command */
 	if (NULL != cmd) {

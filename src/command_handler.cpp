@@ -5,19 +5,7 @@
  * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with BAPS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @file command_handler.h Declarations of CommandHandler. */
+/** @file command_router.cpp Implementation of CommandHandler class. */
 
-#ifndef COMMAND_HANDLER_H
-#define COMMAND_HANDLER_H
-
-#include <QString>
-
-/** CommandHandler */
-class CommandHandler {
-public:
-	QString cmdtype;    ///< Type of the Command
-
-	virtual void HandleEvent(QString payload) = 0;
-};
-
-#endif /* COMMAND_HANDLER_H */
+#include "util.h"
+#include "command_handler.h"

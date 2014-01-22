@@ -10,7 +10,6 @@
 #ifndef COMMAND_ROUTER_H
 #define COMMAND_ROUTER_H
 
-#include <QDataStream>
 #include <QString>
 #include <map>
 
@@ -22,7 +21,7 @@ public:
 	CommandRouter();
 
 	bool Register(CommandHandler *handler); ///< Register a CommandHandler
-	CommandHandler *DecodeCommand(QDataStream &rawdata);
+	CommandHandler *DecodeCommand(QString &cmdStr);
 
 private:
 	// Lookup table to map command to command handler

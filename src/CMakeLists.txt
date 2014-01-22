@@ -17,10 +17,12 @@ FILE(GLOB SRCS
   ${FP}/server.cpp
   ${FP}/command_handler.cpp
   ${FP}/command_router.cpp
+  ${FP}/command_handlers/version.cpp
   ${FP}/server.h
   ${FP}/util.h
   ${FP}/command_handler.h
   ${FP}/command_router.h
+  ${FP}/command_handlers/version.h
 )
 
 # Find Qt5Network

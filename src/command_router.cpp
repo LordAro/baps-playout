@@ -22,7 +22,8 @@ bool CommandRouter::Register(CommandHandler *handler)
 {
 	if (NULL != handler)
 	{
-//		commandHandlers[type] = handler;
+		/* Fish the command type from the child instance */
+		commandHandlers[handler->cmdtype] = handler;
 		return true;
 	} else {
 		return false;
@@ -34,9 +35,12 @@ bool CommandRouter::Register(CommandHandler *handler)
  * @param rawdata Reference to client's data stream.
  * @return Appropriate Command Handler child class instance
  */
-CommandHandler *CommandRouter::DecodeCommand(QDataStream &rawdata)
+CommandHandler *CommandRouter::DecodeCommand(QString &cmdStr)
 {
 	/* Decode the string and return an appropriate commandhandler child, or
          * return null if it's an invalid command */
+	
+	qDebug() << cmdStr;
+
 	return nullptr;
 }
