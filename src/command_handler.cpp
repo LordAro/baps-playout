@@ -5,7 +5,7 @@
  * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with BAPS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @file command_router.cpp Implementation of CommandHandler class. */
+/** @file command_handler.cpp Implementation of CommandHandler class. */
 
 #include "util.h"
 #include "command_handler.h"

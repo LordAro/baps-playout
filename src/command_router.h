@@ -13,9 +13,8 @@
 #include <QString>
 #include <map>
 
-#include <command_handler.h>
+#include "command_handler.h"
 
-/** CommandRouter */
 class CommandRouter {
 public:
 	CommandRouter();

@@ -20,7 +20,7 @@ CommandRouter::CommandRouter() {}
  */
 bool CommandRouter::Register(CommandHandler *handler)
 {
-	if (NULL != handler)
+	if (handler != nullptr)
 	{
 		/* Fish the command type from the child instance */
 		commandHandlers[handler->cmdtype] = handler;

@@ -11,13 +11,13 @@
 #define COMMAND_HANDLER_H
 
 #include <QString>
+#include <QTcpSocket>
 
-/** CommandHandler */
 class CommandHandler {
 public:
-	QString cmdtype;    ///< Type of the Command
+	QString cmdtype; ///< Type of the Command
 
-	virtual void HandleEvent(QString payload) = 0;
+	virtual void HandleEvent(QString payload, QTcpSocket *clientSocket) = 0;
 };
 
 #endif /* COMMAND_HANDLER_H */
