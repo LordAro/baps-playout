@@ -17,7 +17,7 @@ BAPSServer::BAPSServer(QObject *parent)
 	/* Create an instance of the Command Router and then register each
 	 * command handler */
 	this->cmdRouter = CommandRouter();
-	this->cmdRouter.Register(new VersionHandler());
+	this->cmdRouter.Register(CommandHandlerPtr(new VersionHandler()));
 }
 
 
@@ -47,16 +47,17 @@ void BAPSServer::ReadTCPData()
 
 	/* Read a line from the socket and pass it to the command router */
 	QByteArray bytes = client->readLine(0);
-	QString cmdStr(bytes);
-	cmdStr = cmdStr.simplified();
+	std::string cmdstr = QString(bytes).trimmed().toStdString();
 
-	CommandHandler *cmd = this->cmdRouter.DecodeCommand(cmdStr);
+	CommandHandlerPtr cmd = this->cmdRouter.DecodeCommand(cmdstr);
 
 	/* Process command */
-	if (NULL != cmd) {
+	if (cmd == nullptr) {
 		qWarning() << "Cannot process invalid command";
 		return;
 	}
+
+	cmd->HandleEvent(cmdstr, client);
 }
 
 /**

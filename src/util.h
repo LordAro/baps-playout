@@ -9,6 +9,7 @@
 #define UTIL_H
 
 #include <cassert>
+#include <memory>
 
 #include <QDebug>
 

@@ -13,8 +13,8 @@ SET(FP ${CMAKE_SOURCE_DIR}/src)
 FILE(GLOB SRCS
   ${FP}/baps.cpp
   ${FP}/server.cpp
-  ${FP}/command_handler.cpp
   ${FP}/command_router.cpp
+  ${FP}/command_handler.cpp
   ${FP}/command_handlers/version.cpp
   ${FP}/server.h
   ${FP}/util.h

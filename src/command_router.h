@@ -10,20 +10,16 @@
 
 #include <QString>
 #include <map>
-
 #include "command_handler.h"
 
 class CommandRouter {
 public:
-	CommandRouter();
-
-	bool Register(CommandHandler *handler); ///< Register a CommandHandler
-	CommandHandler *DecodeCommand(QString &cmdStr);
+	bool Register(CommandHandlerPtr handler);
+	CommandHandlerPtr DecodeCommand(const std::string &cmdStr);
 
 private:
-	// Lookup table to map command to command handler
-	std::map<QString, CommandHandler *> commandHandlers;
-	
+	/** Lookup table to map command to command handler. */
+	std::map<std::string, CommandHandlerPtr> commandHandlers;
 };
 
 #endif /* COMMAND_ROUTER_H */
