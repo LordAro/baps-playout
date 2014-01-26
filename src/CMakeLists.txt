@@ -9,18 +9,18 @@ ENDIF()
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_AUTOMOC ON)
 
-SET(FP ${CMAKE_SOURCE_DIR}/src)
+SET(FP ${CMAKE_SOURCE_DIR}/src/)
 FILE(GLOB SRCS
-  ${FP}/baps.cpp
-  ${FP}/server.cpp
-  ${FP}/command_router.cpp
-  ${FP}/command_handler.cpp
-  ${FP}/command_handlers/version.cpp
-  ${FP}/server.h
-  ${FP}/util.h
-  ${FP}/command_handler.h
-  ${FP}/command_router.h
-  ${FP}/command_handlers/version.h
+  ${FP}baps.cpp
+  ${FP}server.cpp
+  ${FP}command_router.cpp
+  ${FP}command_handler.cpp
+  ${FP}command_handlers/version.cpp
+  ${FP}server.h
+  ${FP}util.h
+  ${FP}command_handler.h
+  ${FP}command_router.h
+  ${FP}command_handlers/version.h
 )
 
 # Find Qt5Network
