@@ -88,6 +88,7 @@ BAPS is credited as being created by the following people
 
 * Lord Aro (Charles Pigott)
 * liamfraser (Liam Fraser)
+* CaptainHayashi (Matt Windsor)
 
 and of course,
 * Matthew Fortune
