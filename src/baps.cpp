@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 	auto server = std::unique_ptr<BAPSServer>(new BAPSServer());
 	
 	if (!server->listen(QHostAddress::Any, 1350)) {
-		qFatal("Error starting TcpSever: %s", qPrintable(server->errorString()));
+		qFatal("Error starting TcpServer: %s", qPrintable(server->errorString()));
 	}
 
 	qDebug() << "Listening on:" << server->serverAddress().toString()
