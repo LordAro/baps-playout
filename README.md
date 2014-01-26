@@ -60,7 +60,7 @@ changes.
 Once all tools are installed, get a checkout of the repository and you can build
 BAPS using cmake. Once that is done, the following make targets are available:
 
-|              |                                                 |
+| Target       | Description                                     |
 | ------------ | ----------------------------------------------- |
 | **help**     | displays a list of make targets.                |
 | **clean**    | cleans build files (not CMake files)            |
