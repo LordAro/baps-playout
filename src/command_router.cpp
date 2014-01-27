@@ -12,7 +12,6 @@
  * Register a Command Handler.
  * @param handler Pointer to the CommandHandler instance.
  * @return Was registering the CommandHandler successful?
- * @todo Pick the string out of the instance to use as the map key.
  */
 bool CommandRouter::Register(CommandHandlerPtr handler)
 {
