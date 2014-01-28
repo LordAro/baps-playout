@@ -20,18 +20,16 @@ BAPSServer::BAPSServer(QObject *parent)
 	this->cmdRouter.Register(CommandHandlerPtr(new VersionHandler()));
 }
 
-
-
 void BAPSServer::incomingConnection(qintptr socket_desc)
 {
-	auto client = std::unique_ptr<QTcpSocket>(new QTcpSocket());
+	auto client = QSharedPointer<QTcpSocket>(new QTcpSocket, [](QTcpSocket *obj) { obj->deleteLater(); });
 	client->setSocketDescriptor(socket_desc);
 
 	qDebug() << "New client from:" << client->peerAddress().toString();
 
 	/* Connect client to signals */
-	connect(client.get(), SIGNAL(readyRead()), this, SLOT(ReadTCPData()));
-	connect(client.get(), SIGNAL(disconnected()), this, SLOT(Disconnected()));
+	connect(client.data(), SIGNAL(readyRead()), this, SLOT(ReadTCPData()));
+	connect(client.data(), SIGNAL(disconnected()), this, SLOT(Disconnected()));
 
 	this->clients.push_back(std::move(client));
 }
@@ -60,7 +58,7 @@ void BAPSServer::Disconnected()
 	assert(client != nullptr);
 
 	for (auto elem = this->clients.begin(); elem != this->clients.end(); ++elem) {
-		if (client == elem->get()) {
+		if (client == elem->data()) {
 			qDebug() << "Removing:" << client->peerAddress().toString();
 			this->clients.erase(elem);
 			return;

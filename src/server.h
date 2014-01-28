@@ -10,6 +10,7 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QSharedPointer>
 #include <vector>
 #include <memory>
 #include <command_router.h>
@@ -27,7 +28,7 @@ private slots:
 protected:
 	void incomingConnection(qintptr socket_desc) override;
 private:
-	std::vector<std::unique_ptr<QTcpSocket>> clients;
+	std::vector<QSharedPointer<QTcpSocket>> clients;
 	CommandRouter cmdRouter;
 
 	std::string ReadCommandLine(QTcpSocket *client);
