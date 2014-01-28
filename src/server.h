@@ -29,6 +29,9 @@ protected:
 private:
 	std::vector<std::unique_ptr<QTcpSocket>> clients;
 	CommandRouter cmdRouter;
+
+	std::string ReadCommandLine(QTcpSocket *client);
+	void ProcessCommand(CommandHandlerPtr cmd, std::string cmdstr, QTcpSocket *client);
 };
 
 #endif /* SERVER_H */
