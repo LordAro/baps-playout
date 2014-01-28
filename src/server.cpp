@@ -69,12 +69,12 @@ void BAPSServer::Disconnected()
 	auto client = static_cast<QTcpSocket *>(sender());
 	assert(client != nullptr);
 
-	auto rm_elem = std::remove_if(this->clients.begin(), this->clients.end(),
-	                              [client](std::unique_ptr<QTcpSocket> const &c) { return c.get() == client; });
-	if (rm_elem != this->clients.end()) {
-		qDebug() << "Removing:" << client->peerAddress().toString();
-		this->clients.erase(rm_elem);
-	} else {
-		qWarning() << "Unable to remove client:" << client->peerAddress().toString();
+	for (auto elem = this->clients.begin(); elem != this->clients.end(); ++elem) {
+		if (client == elem->get()) {
+			qDebug() << "Removing:" << client->peerAddress().toString();
+			this->clients.erase(elem);
+			return;
+		}
 	}
+	qWarning() << "Unable to remove client:" << client->peerAddress().toString();
 }
