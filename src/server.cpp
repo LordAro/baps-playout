@@ -20,18 +20,16 @@ BAPSServer::BAPSServer(QObject *parent)
 	this->cmdRouter.Register(CommandHandlerPtr(new VersionHandler()));
 }
 
-
-
 void BAPSServer::incomingConnection(qintptr socket_desc)
 {
-	auto client = std::unique_ptr<QTcpSocket>(new QTcpSocket());
+	auto client = QSharedPointer<QTcpSocket>(new QTcpSocket, [](QTcpSocket *obj) { obj->deleteLater(); });
 	client->setSocketDescriptor(socket_desc);
 
 	qDebug() << "New client from:" << client->peerAddress().toString();
 
 	/* Connect client to signals */
-	connect(client.get(), SIGNAL(readyRead()), this, SLOT(ReadTCPData()));
-	connect(client.get(), SIGNAL(disconnected()), this, SLOT(Disconnected()));
+	connect(client.data(), SIGNAL(readyRead()), this, SLOT(ReadTCPData()));
+	connect(client.data(), SIGNAL(disconnected()), this, SLOT(Disconnected()));
 
 	this->clients.push_back(std::move(client));
 }
@@ -45,19 +43,9 @@ void BAPSServer::ReadTCPData()
 	auto client = static_cast<QTcpSocket *>(sender());
 	assert(client != nullptr);
 
-	/* Read a line from the socket and pass it to the command router */
-	QByteArray bytes = client->readLine(0);
-	std::string cmdstr = QString(bytes).trimmed().toStdString();
-
+	std::string cmdstr = ReadCommandLine(client);
 	CommandHandlerPtr cmd = this->cmdRouter.DecodeCommand(cmdstr);
-
-	/* Process command */
-	if (cmd == nullptr) {
-		qWarning() << "Cannot process invalid command";
-		return;
-	}
-
-	cmd->HandleEvent(cmdstr, client);
+	ProcessCommand(cmd, cmdstr, client);
 }
 
 /**
@@ -70,11 +58,40 @@ void BAPSServer::Disconnected()
 	assert(client != nullptr);
 
 	for (auto elem = this->clients.begin(); elem != this->clients.end(); ++elem) {
-		if (client == elem->get()) {
+		if (client == elem->data()) {
 			qDebug() << "Removing:" << client->peerAddress().toString();
 			this->clients.erase(elem);
 			return;
 		}
 	}
 	qWarning() << "Unable to remove client:" << client->peerAddress().toString();
+}
+
+/**
+ * Read a command line from a client socket.
+ * @param client The client whose command line is to be read.
+ * @return The string representing the command line read from the client.
+ * @note This is a blocking operation.
+ */
+std::string BAPSServer::ReadCommandLine(QTcpSocket *client)
+{
+	QByteArray bytes = client->readLine(0);
+	return QString(bytes).trimmed().toStdString();
+}
+
+/**
+ * Process a command, given its handler, command line and the client that sent it.
+ * @param cmd A pointer to the command handler responsible for processing this command.
+ * @param cmdstr The full command string.
+ * @param client The client whose command is being processed.
+ * @todo Pass the command a parsed form of the command string (eg, vector of arguments)?
+ */
+void BAPSServer::ProcessCommand(CommandHandlerPtr cmd, std::string cmdstr, QTcpSocket *client)
+{
+	if (cmd == nullptr) {
+		qWarning() << "Cannot process invalid command";
+		return;
+	}
+
+	cmd->HandleEvent(cmdstr, client);
 }
