@@ -86,9 +86,9 @@ BAPS is licenced under MIT License. See LICENSE.txt for more details.
 BAPS is credited as being created by the following people
 (in reverse alphabetical order):
 
+* CaptainHayashi (Matt Windsor)
 * Lord Aro (Charles Pigott)
 * liamfraser (Liam Fraser)
-* CaptainHayashi (Matt Windsor)
 
 and of course,
 * Matthew Fortune
